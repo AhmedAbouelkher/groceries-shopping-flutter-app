@@ -5,6 +5,11 @@ import 'package:groceries_shopping_app/models/product.dart';
 class ProductsOperationsController extends ChangeNotifier {
   List<Product> _productsInStock = [
     Product(
+        name: 'Fusilo ketchup Toglile',
+        picPath: 'assets/ketchup.png',
+        price: '\$9.95',
+        weight: '550g'),
+    Product(
         name: 'Togliatelle Rice Organic',
         picPath: 'assets/rice.png',
         price: '\$7.99',
@@ -24,11 +29,6 @@ class ProductsOperationsController extends ChangeNotifier {
         picPath: 'assets/pasta.png',
         price: '\$7.99',
         weight: '500g'),
-    Product(
-        name: 'Fusilo ketchup Toglile',
-        picPath: 'assets/ketchup.png',
-        price: '\$9.95',
-        weight: '550g'),
     Product(
         name: 'Organic Flour',
         picPath: 'assets/flour.png',

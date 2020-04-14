@@ -26,7 +26,7 @@ class ProductsCheckout extends StatelessWidget {
         ? 0
         : (totalPriceProvider > 40
             ? totalPriceProvider
-            : totalPriceProvider + 20);
+            : totalPriceProvider + 5);
     return Stack(
       overflow: Overflow.visible,
       fit: StackFit.loose,
@@ -57,7 +57,6 @@ class ProductsCheckout extends StatelessWidget {
                 return Dismissible(
                   key: Key(cartProductsProvider[index].picPath),
                   onDismissed: (direction) {
-                    print("Dismissed");
                     Provider.of<ProductsOperationsController>(context,
                             listen: false)
                         .deleteFromCart(index);

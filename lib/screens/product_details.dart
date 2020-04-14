@@ -271,7 +271,7 @@ class ProductQuantity extends StatelessWidget {
       fontSize: response.setFontSize(20),
     );
     return Container(
-      height: response.setHeight(50),
+      height: response.setHeight(45),
       width: response.setWidth(100),
       padding: EdgeInsets.symmetric(horizontal: response.setWidth(15)),
       decoration: BoxDecoration(

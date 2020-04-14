@@ -4,7 +4,14 @@ This amazing App UI is built on the amazing design of [Cuberto](https://dribbble
 
 - Original UI design: [Here](https://dribbble.com/shots/6120171-Groceries-Shopping-App-Interaction "Original Design URL")
 - For more Flutter apps: [From Here](https://github.com/AhmedAbouelkher "profile")
+- Video/Live Demo: [From Here](https://youtu.be/Um_O8Bpl7Yo "Demo")  
 
-<img src="screenshots/1.png" width="350" alt="Lock Screen">  <img src="screenshots/2.png" width="350" alt="Home Screen 1">
+## Screenshots
 
-<img src="screenshots/3.png" width="350" alt="Home Screen 2">  <img src="screenshots/4.png" width="350" alt="Bottom Control Sheet">
+<img src="screenshots/screenshot_1.png" width="320">  <img src="screenshots/screenshot_2.png" width="320">  <img src="screenshots/screenshot_9.png" width="320">
+
+<img src="screenshots/screenshot_3.png" width="400">  <img src="screenshots/screenshot_4.png" width="400">
+
+<img src="screenshots/screenshot_5.png" width="400">  <img src="screenshots/screenshot_6.png" width="400">
+
+<img src="screenshots/screenshot_7.png" width="400">  <img src="screenshots/screenshot_8.png" width="400">

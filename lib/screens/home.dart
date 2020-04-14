@@ -120,6 +120,11 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+/*
+_animateCartCheckout();
+          Provider.of<ProductsOperationsController>(context, listen: false)
+              .returnTotalCost();
+*/
   @override
   Widget build(BuildContext context) {
     var cartProductsProvider =
@@ -128,15 +133,19 @@ class _HomeScreenState extends State<HomeScreen>
         Provider.of<ProductsOperationsController>(context).totalCost;
     return Scaffold(
       backgroundColor: AppTheme.mainCartBackgroundColor,
-      floatingActionButton: FloatingActionButton(
-        heroTag: null,
-        backgroundColor: Colors.red,
-        elevation: 0,
-        onPressed: () {
-          _animateCartCheckout();
-          Provider.of<ProductsOperationsController>(context, listen: false)
-              .returnTotalCost();
-        },
+      floatingActionButton: Align(
+        alignment: Alignment(0.25, 1),
+        child: GestureDetector(
+          onTap: () {
+            _animateCartCheckout();
+            Provider.of<ProductsOperationsController>(context, listen: false)
+                .returnTotalCost();
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 60,
+          ),
+        ),
       ),
       body: Stack(
         overflow: Overflow.visible,
@@ -149,72 +158,35 @@ class _HomeScreenState extends State<HomeScreen>
             left: 0,
             width: response.screenWidth,
             child: Container(
-              color: AppTheme.mainCartBackgroundColor,
               height: response.screenHeight,
               width: response.screenWidth,
-              child: GestureDetector(
-                onTap: () {
-                  // _expandCard();
-                  // _animateCartCheckout();
-                  // Provider.of<ProductsBrain>(context, listen: false)
-                  //     .returnTotalCost();
-                },
-                onVerticalDragUpdate: (update) {
-                  // print(update.globalPosition.dy);
-                },
-                child: ListView(
-                  children: <Widget>[
-                    GestureDetector(
-                      onVerticalDragUpdate: (update) {
-                        // _expandCard();
-                        // _animateCartCheckout();
-                        // Provider.of<ProductsBrain>(context, listen: false)
-                        //     .returnTotalCost();
-                        // print("Drag");
-                        // print(update.primaryDelta);
-                        //   if (update.delta.dy > 0) {
-                        //     //down
-                        //     _expandCard();
-                        //     _animateCartCheckout();
-                        //   } else {
-                        //     Provider.of<ProductsBrain>(context, listen: false)
-                        //         .returnTotalCost();
-                        //     _expandCard();
-                        //     _animateCartCheckout();
-                        //     //up
-                        //   }
-                        // },
-                        // onTap: () {
-                        //   print("Tapped");
-                      },
-                      child: Container(
-                        height: response.setHeight(80),
-                        width: response.screenWidth,
-                        // color: Colors.blue,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: response.setWidth(25)),
-                        child: CartPreview(
-                            transformAnimationValue: transformAnimationValue,
-                            animationValue: animationValue,
-                            cartProductsProvider: cartProductsProvider),
-                      ),
+              child: ListView(
+                children: <Widget>[
+                  Container(
+                    height: response.setHeight(80),
+                    width: response.screenWidth,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: response.setWidth(25)),
+                    child: CartPreview(
+                        transformAnimationValue: transformAnimationValue,
+                        animationValue: animationValue,
+                        cartProductsProvider: cartProductsProvider),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: response.setWidth(20)),
+                    child: Container(
+                      height: response.screenHeight * 0.85,
+                      width: response.screenWidth,
+                      // color: Colors.redAccent,
+                      child: ProductsCheckout(
+                          cartCheckoutTransitionValue:
+                              cartCheckoutTransitionValue,
+                          cartProductsProvider: cartProductsProvider,
+                          totalPriceProvider: totalPriceProvider),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: response.setWidth(20)),
-                      child: Container(
-                        height: response.screenHeight * 0.85,
-                        width: response.screenWidth,
-                        // color: Colors.redAccent,
-                        child: ProductsCheckout(
-                            cartCheckoutTransitionValue:
-                                cartCheckoutTransitionValue,
-                            cartProductsProvider: cartProductsProvider,
-                            totalPriceProvider: totalPriceProvider),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
