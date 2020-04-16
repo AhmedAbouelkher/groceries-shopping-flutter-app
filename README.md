@@ -6,8 +6,8 @@ This amazing App UI is built on the amazing design of [Cuberto](https://dribbble
 - For more Flutter apps: [From Here](https://github.com/AhmedAbouelkher "profile")
 - Video/Live Demo: [From Here](https://youtu.be/Um_O8Bpl7Yo "Demo")  
 ## Design
-
-![original Design](https://cdn.dribbble.com/users/4859/videos/16204/cart.mp4 "Design")
+<!-- original_design.gif -->
+![original Design](https://github.com/AhmedAbouelkher/groceries-shopping-flutter-app/blob/master/screenshots/original_design.gif "Design")
 
 ## Implementation
 
