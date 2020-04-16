@@ -142,7 +142,7 @@ _animateCartCheckout();
                 .returnTotalCost();
           },
           child: CircleAvatar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.amber.withOpacity(0.2),
             radius: 60,
           ),
         ),
