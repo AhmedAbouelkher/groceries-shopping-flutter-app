@@ -6,7 +6,7 @@ This amazing App UI is built on the amazing design of [Cuberto](https://dribbble
 - For more Flutter apps: [From Here](https://github.com/AhmedAbouelkher "profile")
 - Video/Live Demo: [From Here](https://youtu.be/Um_O8Bpl7Yo "Demo")  
 
-## Screenshots
+## Implementation
 
 <img src="screenshots/screenshot_6.png" width="300"> <img src="screenshots/screenshot_1.png" width="300">  <img src="screenshots/screenshot_2.png" width="300">  
 
