@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:groceries_shopping_app/appTheme.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
@@ -81,9 +84,14 @@ class ProductsPreview extends StatelessWidget {
                     children: <Widget>[
                       Hero(
                         tag: 'backarrow',
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: response.setHeight(21),
+                        child: GestureDetector(
+                          onTap: () async {
+                            await _buildAlartDialog(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: response.setHeight(21),
+                          ),
                         ),
                       ),
                       Spacer(flex: 2),
@@ -95,7 +103,11 @@ class ProductsPreview extends StatelessWidget {
                         ),
                       ),
                       Spacer(flex: 8),
-                      FaIcon(FontAwesomeIcons.bars)
+                      GestureDetector(
+                          onTap: () async {
+                            await _buildAlartDialog(context);
+                          },
+                          child: FaIcon(FontAwesomeIcons.bars))
                     ],
                   ),
                 ),
@@ -104,6 +116,31 @@ class ProductsPreview extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  FutureOr<bool> _buildAlartDialog(BuildContext context) async {
+    return showPlatformDialog<bool>(
+      context: context,
+      builder: (_) => PlatformAlertDialog(
+        title: Text(
+          'Info',
+          style: TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Text("This feature will be implemented soon, stay tuned."),
+        ),
+        actions: <Widget>[
+          PlatformDialogAction(
+            child: PlatformText('OK'),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      ),
     );
   }
 }

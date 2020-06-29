@@ -2,6 +2,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:groceries_shopping_app/local_database.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
 import 'package:groceries_shopping_app/screens/home.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails>
     with SingleTickerProviderStateMixin, AfterLayoutMixin<ProductDetails> {
   bool isFavourite = false;
+  PreferenceUtils _utils;
   AnimationController animationController;
   Animation animation;
   Animation secondaryAnimation;
@@ -29,6 +31,7 @@ class _ProductDetailsState extends State<ProductDetails>
   void initState() {
     super.initState();
     isToPreview = false;
+    _utils = PreferenceUtils.getInstance();
     animationController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1000));
     animation = Tween<double>(begin: 1, end: 0).animate(
@@ -192,9 +195,12 @@ class _ProductDetailsState extends State<ProductDetails>
                                         icon: FaIcon(isFavourite
                                             ? FontAwesomeIcons.solidHeart
                                             : FontAwesomeIcons.heart),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           setState(
                                               () => isFavourite = !isFavourite);
+                                          await _utils.saveValueWithKey<bool>(
+                                              "${productProvider[widget.productIndex].name}-fav",
+                                              isFavourite);
                                         }),
                                   ),
                                 ),
@@ -250,8 +256,13 @@ class _ProductDetailsState extends State<ProductDetails>
   }
 
   @override
-  void afterFirstLayout(BuildContext context) {
+  void afterFirstLayout(BuildContext context) async {
     animationController.forward();
+    var value = _utils.getValueWithKey(
+        "${Provider.of<ProductsOperationsController>(context, listen: false).productsInStock[widget.productIndex].name}-fav");
+    if (value != null) {
+      setState(() => isFavourite = value);
+    }
   }
 }
 

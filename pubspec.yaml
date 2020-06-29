@@ -28,10 +28,25 @@ dependencies:
   flutter_staggered_grid_view:
   step_progress_indicator:
   after_layout:
+  swipe_gesture_recognizer: ^0.0.2
+  awesome_dialog: ^1.1.2
+  flutter_platform_widgets: ^0.51.0
+  shared_preferences: ^0.5.7+3
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.jpg"
+
+flutter_native_splash:
+  image: assets/icon.jpg
+  color: "ffffff"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+  flutter_native_splash: ^0.1.9
 
 
 # For information on the generic Dart part of this file, see the

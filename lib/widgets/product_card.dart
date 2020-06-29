@@ -33,7 +33,7 @@ class ProductCard extends StatelessWidget {
           padding: EdgeInsets.only(
             left: response.setWidth(15),
             right: response.setWidth(15),
-            top: response.setWidth(40),
+            top: response.setWidth(20),
             bottom: response.setWidth(10),
           ),
           child: Column(

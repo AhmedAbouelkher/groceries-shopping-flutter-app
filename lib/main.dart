@@ -4,7 +4,13 @@ import 'package:groceries_shopping_app/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:response/Response.dart';
 
-void main() => runApp(MyApp());
+import 'local_database.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PreferenceUtils.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -12,7 +18,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       child: Response(
         child: MaterialApp(
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           home: HomeScreen(),
         ),
       ),

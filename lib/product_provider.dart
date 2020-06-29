@@ -37,6 +37,11 @@ class ProductsOperationsController extends ChangeNotifier {
   ];
 
   List<Product> _shoppingCart = [];
+  VoidCallback onCheckOutCallback;
+
+  void onCheckOut({VoidCallback onCheckOutCallback}) {
+    this.onCheckOutCallback = onCheckOutCallback;
+  }
 
   UnmodifiableListView<Product> get productsInStock {
     return UnmodifiableListView(_productsInStock);
@@ -104,5 +109,11 @@ class ProductsOperationsController extends ChangeNotifier {
 
   double get totalCost {
     return double.parse(_totalCost.toStringAsExponential(3));
+  }
+
+  void clearCart() {
+    _shoppingCart.clear();
+    onCheckOutCallback();
+    notifyListeners();
   }
 }
