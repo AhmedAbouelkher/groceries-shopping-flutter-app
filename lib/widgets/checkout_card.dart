@@ -23,49 +23,50 @@ class Checkout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(bottom: response.setHeight(20)),
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: response.setWidth(22),
-            child: Image.asset(
-              cartProductsProvider[index].picPath,
-              scale: 7,
+      child: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: response.setWidth(22),
+              child: Image.asset(
+                cartProductsProvider[index].picPath,
+                scale: 7,
+              ),
             ),
-          ),
-          SizedBox(width: response.setWidth(15)),
-          Text(
-            cartProductsProvider[index].orderedQuantity.toString() + '  x   ',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: response.setFontSize(12),
-            ),
-          ),
-          Container(
-            width: response.screenWidth * 0.5,
-            // color: Colors.red,
-            child: Text(
-              cartProductsProvider[index].name.toString(),
+            SizedBox(width: response.setWidth(15)),
+            Text(
+              cartProductsProvider[index].orderedQuantity.toString() + '  x   ',
               textAlign: TextAlign.start,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: response.setFontSize(16),
+                fontSize: response.setFontSize(12),
               ),
             ),
-          ),
-          Spacer(),
-          Text(
-            "\$" + _cost(),
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: response.setFontSize(15),
+            Container(
+              width: response.screenWidth * 0.5,
+              // color: Colors.red,
+              child: Text(
+                cartProductsProvider[index].name.toString(),
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: response.setFontSize(16),
+                ),
+              ),
             ),
-          ),
-        ],
+            Spacer(),
+            Text(
+              "\$" + _cost(),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: response.setFontSize(15),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

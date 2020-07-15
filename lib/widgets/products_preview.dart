@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,29 +27,32 @@ class ProductsPreview extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(bottom: response.setHeight(6.5)),
               child: SingleChildScrollView(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        for (var index = 0;
-                            index < (listInfo.length / 2).floor();
-                            index++)
-                          ProductCard(index: index)
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: response.setHeight(60)),
-                      child: Column(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 35),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Column(
                         children: <Widget>[
-                          for (var i = (listInfo.length / 2).floor();
-                              i < listInfo.length;
-                              i++)
-                            ProductCard(index: i)
+                          for (var index = 0;
+                              index < (listInfo.length / 2).floor();
+                              index++)
+                            ProductCard(index: index)
                         ],
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: EdgeInsets.only(top: response.setHeight(60)),
+                        child: Column(
+                          children: <Widget>[
+                            for (var i = (listInfo.length / 2).floor();
+                                i < listInfo.length;
+                                i++)
+                              ProductCard(index: i)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -41,43 +41,46 @@ class CartPreview extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              width: response.screenWidth * 0.55,
-              height: response.setHeight(50),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: cartProductsProvider.length,
-                itemBuilder: (context, index) {
-                  return Opacity(
-                    opacity: animationValue,
-                    child: Transform(
-                      transform: Matrix4.translationValues(
-                          0,
-                          -transformAnimationValue *
-                              (index <= 2 ? index : 2) *
-                              30,
-                          0),
-                      child: CartPreviewCard(
-                        cartProductsProvider: cartProductsProvider,
-                        index: index,
+            Expanded(
+              child: Container(
+                height: response.setHeight(50),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: cartProductsProvider.length,
+                  itemBuilder: (context, index) {
+                    return Opacity(
+                      opacity: animationValue,
+                      child: Transform(
+                        transform: Matrix4.translationValues(
+                            0,
+                            -transformAnimationValue *
+                                (index <= 2 ? index : 2) *
+                                30,
+                            0),
+                        child: CartPreviewCard(
+                          cartProductsProvider: cartProductsProvider,
+                          index: index,
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-            Spacer(),
             Transform.scale(
               scale: animationValue,
-              child: CircleAvatar(
-                backgroundColor: AppTheme.mainOrangeColor,
-                radius: response.setHeight(23),
-                child: Text(
-                  cartProductsProvider.length.toString(),
-                  style: TextStyle(
-                    fontSize: response.setFontSize(16),
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: CircleAvatar(
+                  backgroundColor: AppTheme.mainOrangeColor,
+                  radius: response.setHeight(20),
+                  child: Text(
+                    cartProductsProvider.length.toString(),
+                    style: TextStyle(
+                      fontSize: response.setFontSize(16),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

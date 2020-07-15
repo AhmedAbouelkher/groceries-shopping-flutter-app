@@ -32,6 +32,7 @@ dependencies:
   awesome_dialog: ^1.1.2
   flutter_platform_widgets: ^0.51.0
   shared_preferences: ^0.5.7+3
+  flutter_svg: ^0.17.4
 
 flutter_icons:
   android: "launcher_icon"

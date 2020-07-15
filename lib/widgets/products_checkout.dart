@@ -5,6 +5,7 @@ import 'package:groceries_shopping_app/product_provider.dart';
 import 'package:groceries_shopping_app/screens/checkout_screen.dart';
 import 'dart:collection';
 import 'package:groceries_shopping_app/screens/home.dart';
+import 'package:groceries_shopping_app/widgets/IllustraionContainer.dart';
 import 'package:groceries_shopping_app/widgets/checkout_card.dart';
 import 'package:groceries_shopping_app/widgets/delivery_card.dart';
 import 'package:provider/provider.dart';
@@ -80,10 +81,8 @@ class ProductsCheckout extends StatelessWidget {
             // color: AppTheme.mainCartBackgroundColor,
             child: Visibility(
               visible: cartProductsProvider.isNotEmpty,
-              replacement: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-                size: 150,
+              replacement: IllustrationContainer(
+                path: AppTheme.emptyCartSVG2,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -165,6 +164,7 @@ class ProductsCheckout extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
           key: Key(cartProductsProvider[index].picPath),
+          direction: DismissDirection.endToStart,
           onDismissed: (direction) {
             Provider.of<ProductsOperationsController>(context, listen: false)
                 .deleteFromCart(index);

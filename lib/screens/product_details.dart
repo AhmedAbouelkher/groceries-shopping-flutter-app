@@ -44,6 +44,12 @@ class _ProductDetailsState extends State<ProductDetails>
   }
 
   @override
+  void dispose() {
+    animationController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ProductsOperationsController>(context);
     var productProvider =
@@ -53,6 +59,7 @@ class _ProductDetailsState extends State<ProductDetails>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppTheme.mainScaffoldBackgroundColor,
+        brightness: Brightness.light,
         leading: IconButton(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
@@ -90,12 +97,15 @@ class _ProductDetailsState extends State<ProductDetails>
         overflow: Overflow.visible,
         children: <Widget>[
           Hero(
-              tag: 'detailsScreen',
-              child: Container(
-                  height: response.screenHeight,
-                  width: response.screenWidth,
-                  decoration: BoxDecoration(
-                      color: AppTheme.mainScaffoldBackgroundColor))),
+            tag: 'detailsScreen',
+            child: Container(
+              height: response.screenHeight,
+              width: response.screenWidth,
+              decoration: BoxDecoration(
+                color: AppTheme.mainScaffoldBackgroundColor,
+              ),
+            ),
+          ),
           Align(
             alignment: Alignment.center,
             child: SingleChildScrollView(

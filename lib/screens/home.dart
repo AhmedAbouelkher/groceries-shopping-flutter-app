@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:groceries_shopping_app/appTheme.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
 import 'package:groceries_shopping_app/widgets/products_checkout.dart';
@@ -20,13 +19,13 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   bool isCartExpanded = false;
   double currentCartScreenFactor = 0.89;
-  double currentMainScreenFactor = 0.01;
+  double currentMainScreenFactor = 0.045;
   double animationValue = 1;
   double transformAnimationValue = 0;
   double cartCheckoutTransitionValue = 0;
-  AnimationController animationController;
+  AnimationController _animationController;
   Animation transformAnimation;
-  Animation animation;
+  Animation _animation;
   Animation cartCheckoutTransitionAnimation;
   Animation mainBoardAnimation;
   Animation cartBoardAnimation;
@@ -41,45 +40,45 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
     _duration = Duration(milliseconds: 700);
     _curve = Curves.decelerate;
     /**
      * Main Animation Controller
      */
-    animationController = AnimationController(vsync: this, duration: _duration);
+    _animationController =
+        AnimationController(vsync: this, duration: _duration);
     /**
      * Animations Curves
      */
     curvedAnimation =
-        CurvedAnimation(parent: animationController, curve: _curve);
+        CurvedAnimation(parent: _animationController, curve: _curve);
     cartCheckoutCurvedAnimation =
-        CurvedAnimation(parent: animationController, curve: Curves.easeInExpo);
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInExpo);
     mainBoardCurvedAnimation =
-        CurvedAnimation(parent: animationController, curve: _curve);
+        CurvedAnimation(parent: _animationController, curve: _curve);
     cartBoardCurvedAnimation = CurvedAnimation(
-        parent: animationController, curve: Interval(0.3, 1, curve: _curve));
+        parent: _animationController, curve: Interval(0.3, 1, curve: _curve));
     /**
      * Animations
      */
-    animation = Tween<double>(begin: 1, end: 0).animate(curvedAnimation);
+    _animation = Tween<double>(begin: 1, end: 0).animate(curvedAnimation);
     transformAnimation =
         Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     cartCheckoutTransitionAnimation =
         Tween<double>(begin: 0, end: 1).animate(cartCheckoutCurvedAnimation);
-    mainBoardAnimation = Tween<double>(begin: 0.01, end: 0.825)
+    mainBoardAnimation = Tween<double>(begin: 0.045, end: 0.825)
         .animate(mainBoardCurvedAnimation);
     cartBoardAnimation =
         Tween<double>(begin: 0.89, end: 0.12).animate(cartBoardCurvedAnimation);
     /**
      * Animations Listners
      */
-    animation.addStatusListener((AnimationStatus status) {
+    _animation.addStatusListener((AnimationStatus status) {
       setState(() => currentAnimationStatus = status);
     });
-    animation.addListener(() {
+    _animation.addListener(() {
       setState(() {
-        animationValue = animation.value;
+        animationValue = _animation.value;
       });
     });
     transformAnimation.addListener(() {
@@ -108,16 +107,16 @@ class _HomeScreenState extends State<HomeScreen>
   void _animateCartCheckout() {
     switch (currentAnimationStatus) {
       case AnimationStatus.completed:
-        animationController.reverse();
+        _animationController.reverse();
         setState(() => isCartExpanded = false);
         break;
       case AnimationStatus.reverse:
-        animationController.forward();
+        _animationController.forward();
         setState(() => isCartExpanded = true);
         break;
       default:
         setState(() => isCartExpanded = true);
-        animationController.forward();
+        _animationController.forward();
     }
   }
 
@@ -132,6 +131,8 @@ class _HomeScreenState extends State<HomeScreen>
       onCheckOutCallback: _animateCartCheckout,
     );
 
+    final disableCartTauch = !isCartExpanded && cartProductsProvider.length < 4;
+
     return SwipeGestureRecognizer(
       onSwipeUp: () {
         _animateCartCheckout();
@@ -141,6 +142,14 @@ class _HomeScreenState extends State<HomeScreen>
       onSwipeDown: () => _animateCartCheckout(),
       child: Scaffold(
         backgroundColor: AppTheme.mainCartBackgroundColor,
+        appBar: PreferredSize(
+          child: AppBar(
+            backgroundColor: AppTheme.mainScaffoldBackgroundColor,
+            elevation: 0,
+            brightness: Brightness.light,
+          ),
+          preferredSize: Size.fromHeight(0),
+        ),
         body: Stack(
           overflow: Overflow.visible,
           children: <Widget>[
@@ -152,11 +161,14 @@ class _HomeScreenState extends State<HomeScreen>
               left: 0,
               width: response.screenWidth,
               child: IgnorePointer(
-                ignoring: !isCartExpanded && cartProductsProvider.length < 10,
+                ignoring: disableCartTauch,
                 child: Container(
                   height: response.screenHeight,
                   width: response.screenWidth,
                   child: ListView(
+                    physics: !isCartExpanded
+                        ? NeverScrollableScrollPhysics()
+                        : AlwaysScrollableScrollPhysics(),
                     children: <Widget>[
                       Container(
                         height: response.setHeight(80),
@@ -233,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void dispose() {
-    animationController.dispose();
+    _animationController?.dispose();
     super.dispose();
   }
 }
