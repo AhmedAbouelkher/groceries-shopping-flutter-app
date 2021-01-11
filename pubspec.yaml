@@ -10,7 +10,7 @@ name: groceries_shopping_app
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -18,21 +18,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  response:
-  provider:
-  font_awesome_flutter:
-  flutter_staggered_grid_view:
-  step_progress_indicator:
-  after_layout:
-  swipe_gesture_recognizer: ^0.0.2
+  after_layout: ^1.0.7+2
   awesome_dialog: ^1.1.2
-  flutter_platform_widgets: ^0.51.0
+  cupertino_icons: ^0.1.2
+  flutter_platform_widgets: ^0.72.0
+  flutter_staggered_grid_view: ^0.3.3
+  flutter_svg: ^0.18.0
+  font_awesome_flutter: ^8.11.0
+  provider: ^4.3.2+3
+  response: ^0.1.1
   shared_preferences: ^0.5.7+3
-  flutter_svg: ^0.17.4
+  step_progress_indicator: ^0.2.5+8
+  swipe_gesture_recognizer: ^0.0.2
 
 flutter_icons:
   android: "launcher_icon"
@@ -49,10 +46,8 @@ dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
   flutter_native_splash: ^0.1.9
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -63,30 +58,27 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+    - assets/
+    # An image asset can refer to one or more resolution-specific "variants", see
+    # https://flutter.dev/assets-and-images/#resolution-aware.
+    # For details regarding adding assets from package dependencies, see
+    # https://flutter.dev/assets-and-images/#from-packages
+    # To add custom fonts to your application, add a fonts section here,
+    # in this "flutter" section. Each entry in this list should have a
+    # "family" key with the font family name, and a "fonts" key with a
+    # list giving the asset and other descriptors for the font. For
+    # example:
+    # fonts:
+    #   - family: Schyler
+    #     fonts:
+    #       - asset: fonts/Schyler-Regular.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    #   - family: Trajan Pro
+    #     fonts:
+    #       - asset: fonts/TrajanPro.ttf
+    #       - asset: fonts/TrajanPro_Bold.ttf
+    #         weight: 700
+    #
+    # For details regarding fonts from package dependencies,
+    # see https://flutter.dev/custom-fonts/#from-packages

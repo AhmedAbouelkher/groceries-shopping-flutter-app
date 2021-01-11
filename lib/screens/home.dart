@@ -15,8 +15,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   bool isCartExpanded = false;
   double currentCartScreenFactor = 0.89;
   double currentMainScreenFactor = 0.045;
@@ -45,31 +44,22 @@ class _HomeScreenState extends State<HomeScreen>
     /**
      * Main Animation Controller
      */
-    _animationController =
-        AnimationController(vsync: this, duration: _duration);
+    _animationController = AnimationController(vsync: this, duration: _duration);
     /**
      * Animations Curves
      */
-    curvedAnimation =
-        CurvedAnimation(parent: _animationController, curve: _curve);
-    cartCheckoutCurvedAnimation =
-        CurvedAnimation(parent: _animationController, curve: Curves.easeInExpo);
-    mainBoardCurvedAnimation =
-        CurvedAnimation(parent: _animationController, curve: _curve);
-    cartBoardCurvedAnimation = CurvedAnimation(
-        parent: _animationController, curve: Interval(0.3, 1, curve: _curve));
+    curvedAnimation = CurvedAnimation(parent: _animationController, curve: _curve);
+    cartCheckoutCurvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInExpo);
+    mainBoardCurvedAnimation = CurvedAnimation(parent: _animationController, curve: _curve);
+    cartBoardCurvedAnimation = CurvedAnimation(parent: _animationController, curve: Interval(0.3, 1, curve: _curve));
     /**
      * Animations
      */
     _animation = Tween<double>(begin: 1, end: 0).animate(curvedAnimation);
-    transformAnimation =
-        Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-    cartCheckoutTransitionAnimation =
-        Tween<double>(begin: 0, end: 1).animate(cartCheckoutCurvedAnimation);
-    mainBoardAnimation = Tween<double>(begin: 0.045, end: 0.825)
-        .animate(mainBoardCurvedAnimation);
-    cartBoardAnimation =
-        Tween<double>(begin: 0.89, end: 0.12).animate(cartBoardCurvedAnimation);
+    transformAnimation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+    cartCheckoutTransitionAnimation = Tween<double>(begin: 0, end: 1).animate(cartCheckoutCurvedAnimation);
+    mainBoardAnimation = Tween<double>(begin: 0.045, end: 0.825).animate(mainBoardCurvedAnimation);
+    cartBoardAnimation = Tween<double>(begin: 0.89, end: 0.12).animate(cartBoardCurvedAnimation);
     /**
      * Animations Listners
      */
@@ -88,8 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
     });
     cartCheckoutTransitionAnimation.addListener(() {
       setState(() {
-        cartCheckoutTransitionValue =
-            cartCheckoutTransitionAnimation.value * 80;
+        cartCheckoutTransitionValue = cartCheckoutTransitionAnimation.value * 80;
       });
     });
     mainBoardAnimation.addListener(() {
@@ -122,12 +111,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final cartProductsProvider =
-        Provider.of<ProductsOperationsController>(context).cart;
-    final totalPriceProvider =
-        Provider.of<ProductsOperationsController>(context).totalCost;
-    Provider.of<ProductsOperationsController>(context, listen: false)
-        .onCheckOut(
+    final cartProductsProvider = Provider.of<ProductsOperationsController>(context).cart;
+    final totalPriceProvider = Provider.of<ProductsOperationsController>(context).totalCost;
+    Provider.of<ProductsOperationsController>(context, listen: false).onCheckOut(
       onCheckOutCallback: _animateCartCheckout,
     );
 
@@ -136,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen>
     return SwipeGestureRecognizer(
       onSwipeUp: () {
         _animateCartCheckout();
-        Provider.of<ProductsOperationsController>(context, listen: false)
-            .returnTotalCost();
+        Provider.of<ProductsOperationsController>(context, listen: false).returnTotalCost();
       },
       onSwipeDown: () => _animateCartCheckout(),
       child: Scaffold(
@@ -150,94 +135,91 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           preferredSize: Size.fromHeight(0),
         ),
-        body: Stack(
-          overflow: Overflow.visible,
-          children: <Widget>[
-            //cart
-            //open = 0.12
-            //closed = 0.92
-            Positioned(
-              bottom: -response.screenHeight * currentCartScreenFactor,
-              left: 0,
-              width: response.screenWidth,
-              child: IgnorePointer(
-                ignoring: disableCartTauch,
-                child: Container(
-                  height: response.screenHeight,
-                  width: response.screenWidth,
-                  child: ListView(
-                    physics: !isCartExpanded
-                        ? NeverScrollableScrollPhysics()
-                        : AlwaysScrollableScrollPhysics(),
-                    children: <Widget>[
-                      Container(
-                        height: response.setHeight(80),
-                        width: response.screenWidth,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: response.setWidth(25)),
-                        child: CartPreview(
-                          transformAnimationValue: transformAnimationValue,
-                          animationValue: animationValue,
-                          cartProductsProvider: cartProductsProvider,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: response.setWidth(20)),
-                        child: Container(
-                          height: response.screenHeight * 0.85,
+        body: SafeArea(
+          child: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              //cart
+              //open = 0.12
+              //closed = 0.92
+              Positioned(
+                bottom: -response.screenHeight * currentCartScreenFactor,
+                left: 0,
+                width: response.screenWidth,
+                child: IgnorePointer(
+                  ignoring: disableCartTauch,
+                  child: Container(
+                    height: response.screenHeight,
+                    width: response.screenWidth,
+                    child: ListView(
+                      physics: !isCartExpanded ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
+                      children: <Widget>[
+                        Container(
+                          height: response.setHeight(80),
                           width: response.screenWidth,
-                          // color: Colors.redAccent,
-                          child: ProductsCheckout(
-                            cartCheckoutTransitionValue:
-                                cartCheckoutTransitionValue,
+                          padding: EdgeInsets.symmetric(horizontal: response.setWidth(25)),
+                          child: CartPreview(
+                            transformAnimationValue: transformAnimationValue,
+                            animationValue: animationValue,
                             cartProductsProvider: cartProductsProvider,
-                            totalPriceProvider: totalPriceProvider,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            //main
-            //open = 0.01
-            //closed = 0.8
-            Positioned(
-              top: -response.screenHeight * currentMainScreenFactor,
-              left: 0,
-              width: response.screenWidth,
-              child: Hero(
-                tag: 'detailsScreen',
-                child: Container(
-                  height: response.screenHeight * 0.90,
-                  width: response.screenWidth,
-                  decoration: BoxDecoration(
-                    color: AppTheme.mainScaffoldBackgroundColor,
-                    // color: Colors.teal,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: response.setWidth(20)),
+                          child: Container(
+                            height: response.screenHeight * 0.85,
+                            width: response.screenWidth,
+                            // color: Colors.redAccent,
+                            child: ProductsCheckout(
+                              cartCheckoutTransitionValue: cartCheckoutTransitionValue,
+                              cartProductsProvider: cartProductsProvider,
+                              totalPriceProvider: totalPriceProvider,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              top: -response.screenHeight * currentMainScreenFactor,
-              left: 0,
-              width: response.screenWidth,
-              child: IgnorePointer(
-                ignoring: isCartExpanded,
-                child: Container(
-                  height: response.screenHeight * 0.90,
-                  width: response.screenWidth,
-                  child: ProductsPreview(),
+              //main
+              //open = 0.01
+              //closed = 0.8
+              Positioned(
+                top: -response.screenHeight * currentMainScreenFactor,
+                left: 0,
+                width: response.screenWidth,
+                child: Hero(
+                  tag: 'detailsScreen',
+                  child: Container(
+                    height: response.screenHeight * 0.90,
+                    width: response.screenWidth,
+                    decoration: BoxDecoration(
+                      color: AppTheme.mainScaffoldBackgroundColor,
+                      // color: Colors.teal,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40),
+                        bottomRight: Radius.circular(40),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: -response.screenHeight * currentMainScreenFactor,
+                left: 0,
+                width: response.screenWidth,
+                child: IgnorePointer(
+                  ignoring: isCartExpanded,
+                  child: Container(
+                    height: response.screenHeight * 0.90,
+                    width: response.screenWidth,
+                    child: ProductsPreview(),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
