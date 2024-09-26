@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:groceries_shopping_app/models/product.dart';
 
 class ProductsOperationsController extends ChangeNotifier {
-  List<Product> _productsInStock = [
+  final List<Product> _productsInStock = [
     Product(
         name: 'Fusilo ketchup Toglile',
         picPath: 'assets/ketchup.png',
@@ -36,10 +36,10 @@ class ProductsOperationsController extends ChangeNotifier {
         weight: '250g'),
   ];
 
-  List<Product> _shoppingCart = [];
-  VoidCallback onCheckOutCallback;
+  final List<Product> _shoppingCart = [];
+  VoidCallback? onCheckOutCallback;
 
-  void onCheckOut({VoidCallback onCheckOutCallback}) {
+  void onCheckOut({required VoidCallback onCheckOutCallback}) {
     this.onCheckOutCallback = onCheckOutCallback;
   }
 
@@ -54,7 +54,7 @@ class ProductsOperationsController extends ChangeNotifier {
   void addProductToCart(int index, {int bulkOrder = 0}) {
     bool inCart = false;
     int indexInCard = 0;
-    if (_shoppingCart.length != 0) {
+    if (_shoppingCart.isNotEmpty) {
       for (int i = 0; i < _shoppingCart.length; i++) {
         if (_shoppingCart[i].name == _productsInStock[index].name &&
             _shoppingCart[i].picPath == _productsInStock[index].picPath) {
@@ -113,7 +113,7 @@ class ProductsOperationsController extends ChangeNotifier {
 
   void clearCart() {
     _shoppingCart.clear();
-    onCheckOutCallback();
+    onCheckOutCallback?.call();
     notifyListeners();
   }
 }

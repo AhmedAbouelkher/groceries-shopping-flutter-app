@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:groceries_shopping_app/models/product.dart';
 import 'dart:collection';
-import 'package:groceries_shopping_app/screens/home.dart';
-import '../appTheme.dart';
+import '../utils.dart';
+import '../app_theme.dart';
 
 class CartPreview extends StatelessWidget {
-  const CartPreview({
-    Key key,
-    @required this.transformAnimationValue,
-    @required this.animationValue,
-    @required this.cartProductsProvider,
-  }) : super(key: key);
-
   final double transformAnimationValue;
   final double animationValue;
   final UnmodifiableListView<Product> cartProductsProvider;
+
+  const CartPreview({
+    super.key,
+    required this.transformAnimationValue,
+    required this.animationValue,
+    required this.cartProductsProvider,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class CartPreview extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: response.setHeight(50),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -70,7 +70,7 @@ class CartPreview extends StatelessWidget {
             Transform.scale(
               scale: animationValue,
               child: Padding(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: CircleAvatar(
                   backgroundColor: AppTheme.mainOrangeColor,
                   radius: response.setHeight(20),
@@ -94,10 +94,10 @@ class CartPreview extends StatelessWidget {
 
 class CartPreviewCard extends StatelessWidget {
   const CartPreviewCard({
-    Key key,
-    @required this.cartProductsProvider,
-    @required this.index,
-  }) : super(key: key);
+    super.key,
+    required this.cartProductsProvider,
+    required this.index,
+  });
 
   final UnmodifiableListView<Product> cartProductsProvider;
   final int index;

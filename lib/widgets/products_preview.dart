@@ -2,28 +2,29 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:groceries_shopping_app/appTheme.dart';
+import 'package:groceries_shopping_app/app_theme.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
-import 'package:groceries_shopping_app/screens/home.dart';
 import 'package:groceries_shopping_app/widgets/product_card.dart';
 import 'package:provider/provider.dart';
+import '../utils.dart';
 
 class ProductsPreview extends StatelessWidget {
-  ProductsPreview({this.opacityAnimation});
-  final Animation<double> opacityAnimation;
+  const ProductsPreview({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var listInfo =
+    final listInfo =
         Provider.of<ProductsOperationsController>(context).productsInStock;
+    final size = MediaQuery.of(context).size;
     return Stack(
       children: <Widget>[
         Positioned(
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            height: response.screenHeight * 0.90,
-            width: response.screenWidth,
+          child: SizedBox(
+            height: size.height * 0.90,
+            width: size.width,
             child: Padding(
               padding: EdgeInsets.only(bottom: response.setHeight(6.5)),
               child: SingleChildScrollView(
@@ -68,7 +69,7 @@ class ProductsPreview extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: [0.5, 1],
+                stops: const [0.5, 1],
                 colors: [
                   AppTheme.mainScaffoldBackgroundColor,
                   AppTheme.mainScaffoldBackgroundColor.withAlpha(150)
@@ -78,25 +79,23 @@ class ProductsPreview extends StatelessWidget {
             child: Opacity(
               opacity: 1,
               child: Align(
-                alignment: Alignment(0, 0.4),
+                alignment: const Alignment(0, 0.4),
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: response.setWidth(20)),
                   child: Row(
                     children: <Widget>[
                       Hero(
-                        tag: 'backarrow',
+                        tag: 'back-arrow',
                         child: GestureDetector(
-                          onTap: () async {
-                            await _buildAlartDialog(context);
-                          },
+                          onTap: () => _buildAlertDialog(context),
                           child: Icon(
                             Icons.arrow_back_ios,
                             size: response.setHeight(21),
                           ),
                         ),
                       ),
-                      Spacer(flex: 2),
+                      const Spacer(flex: 2),
                       Text(
                         "Pasta & Noodles",
                         style: TextStyle(
@@ -104,12 +103,12 @@ class ProductsPreview extends StatelessWidget {
                           fontSize: response.setFontSize(18),
                         ),
                       ),
-                      Spacer(flex: 8),
+                      const Spacer(flex: 8),
                       GestureDetector(
                           onTap: () async {
-                            await _buildAlartDialog(context);
+                            await _buildAlertDialog(context);
                           },
-                          child: FaIcon(FontAwesomeIcons.bars))
+                          child: const FaIcon(FontAwesomeIcons.bars))
                     ],
                   ),
                 ),
@@ -121,18 +120,18 @@ class ProductsPreview extends StatelessWidget {
     );
   }
 
-  FutureOr<bool> _buildAlartDialog(BuildContext context) async {
+  Future<bool?> _buildAlertDialog(BuildContext context) async {
     return showPlatformDialog<bool>(
       context: context,
       builder: (_) => PlatformAlertDialog(
-        title: Text(
+        title: const Text(
           'Info',
           style: TextStyle(
             color: Colors.blue,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: Padding(
+        content: const Padding(
           padding: EdgeInsets.only(top: 10),
           child: Text("This feature will be implemented soon, stay tuned."),
         ),

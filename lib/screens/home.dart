@@ -1,67 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:groceries_shopping_app/appTheme.dart';
+import 'package:flutter/services.dart';
+import 'package:groceries_shopping_app/app_theme.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
 import 'package:groceries_shopping_app/widgets/products_checkout.dart';
 import 'package:groceries_shopping_app/widgets/products_checkout_preview.dart';
 import 'package:groceries_shopping_app/widgets/products_preview.dart';
 import 'package:provider/provider.dart';
-import 'package:response/Response.dart';
-import 'package:swipe_gesture_recognizer/swipe_gesture_recognizer.dart';
-
-var response = ResponseUI();
+import '../utils.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+  late final Animation transformAnimation;
+  late final Animation _animation;
+  late final Animation cartCheckoutTransitionAnimation;
+  late final Animation mainBoardAnimation;
+  late final Animation cartBoardAnimation;
+  AnimationStatus? currentAnimationStatus;
+  late final CurvedAnimation curvedAnimation;
+  late final CurvedAnimation cartCheckoutCurvedAnimation;
+  late final CurvedAnimation mainBoardCurvedAnimation;
+  late final CurvedAnimation cartBoardCurvedAnimation;
+  final Duration _duration = const Duration(milliseconds: 700);
+  final Curve _curve = Curves.decelerate;
   bool isCartExpanded = false;
   double currentCartScreenFactor = 0.89;
   double currentMainScreenFactor = 0.045;
   double animationValue = 1;
   double transformAnimationValue = 0;
   double cartCheckoutTransitionValue = 0;
-  AnimationController _animationController;
-  Animation transformAnimation;
-  Animation _animation;
-  Animation cartCheckoutTransitionAnimation;
-  Animation mainBoardAnimation;
-  Animation cartBoardAnimation;
-  AnimationStatus currentAnimationStatus;
-  CurvedAnimation curvedAnimation;
-  CurvedAnimation cartCheckoutCurvedAnimation;
-  CurvedAnimation mainBoardCurvedAnimation;
-  CurvedAnimation cartBoardCurvedAnimation;
-  Duration _duration;
-  Curve _curve;
 
   @override
   void initState() {
     super.initState();
-    _duration = Duration(milliseconds: 700);
-    _curve = Curves.decelerate;
     /**
      * Main Animation Controller
      */
-    _animationController = AnimationController(vsync: this, duration: _duration);
+    _animationController =
+        AnimationController(vsync: this, duration: _duration);
     /**
      * Animations Curves
      */
-    curvedAnimation = CurvedAnimation(parent: _animationController, curve: _curve);
-    cartCheckoutCurvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInExpo);
-    mainBoardCurvedAnimation = CurvedAnimation(parent: _animationController, curve: _curve);
-    cartBoardCurvedAnimation = CurvedAnimation(parent: _animationController, curve: Interval(0.3, 1, curve: _curve));
+    curvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: _curve);
+    cartCheckoutCurvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInExpo);
+    mainBoardCurvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: _curve);
+    cartBoardCurvedAnimation = CurvedAnimation(
+        parent: _animationController, curve: Interval(0.3, 1, curve: _curve));
     /**
      * Animations
      */
     _animation = Tween<double>(begin: 1, end: 0).animate(curvedAnimation);
-    transformAnimation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-    cartCheckoutTransitionAnimation = Tween<double>(begin: 0, end: 1).animate(cartCheckoutCurvedAnimation);
-    mainBoardAnimation = Tween<double>(begin: 0.045, end: 0.825).animate(mainBoardCurvedAnimation);
-    cartBoardAnimation = Tween<double>(begin: 0.89, end: 0.12).animate(cartBoardCurvedAnimation);
+    transformAnimation =
+        Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+    cartCheckoutTransitionAnimation =
+        Tween<double>(begin: 0, end: 1).animate(cartCheckoutCurvedAnimation);
+    mainBoardAnimation = Tween<double>(begin: 0.045, end: 0.825)
+        .animate(mainBoardCurvedAnimation);
+    cartBoardAnimation =
+        Tween<double>(begin: 0.89, end: 0.12).animate(cartBoardCurvedAnimation);
     /**
-     * Animations Listners
+     * Animations Listeners
      */
     _animation.addStatusListener((AnimationStatus status) {
       setState(() => currentAnimationStatus = status);
@@ -78,7 +86,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     });
     cartCheckoutTransitionAnimation.addListener(() {
       setState(() {
-        cartCheckoutTransitionValue = cartCheckoutTransitionAnimation.value * 80;
+        cartCheckoutTransitionValue =
+            cartCheckoutTransitionAnimation.value * 80;
       });
     });
     mainBoardAnimation.addListener(() {
@@ -111,53 +120,61 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final cartProductsProvider = Provider.of<ProductsOperationsController>(context).cart;
-    final totalPriceProvider = Provider.of<ProductsOperationsController>(context).totalCost;
-    Provider.of<ProductsOperationsController>(context, listen: false).onCheckOut(
+    final size = MediaQuery.of(context).size;
+    final cartProductsProvider =
+        Provider.of<ProductsOperationsController>(context).cart;
+    final totalPriceProvider =
+        Provider.of<ProductsOperationsController>(context).totalCost;
+    Provider.of<ProductsOperationsController>(context, listen: false)
+        .onCheckOut(
       onCheckOutCallback: _animateCartCheckout,
     );
 
-    final disableCartTauch = !isCartExpanded && cartProductsProvider.length < 4;
+    final disableCartTouch = !isCartExpanded && cartProductsProvider.length < 4;
 
-    return SwipeGestureRecognizer(
-      onSwipeUp: () {
+    return GestureDetector(
+      onTapDown: (_) => _animateCartCheckout(),
+      onTapUp: (_) {
         _animateCartCheckout();
-        Provider.of<ProductsOperationsController>(context, listen: false).returnTotalCost();
+        Provider.of<ProductsOperationsController>(context, listen: false)
+            .returnTotalCost();
       },
-      onSwipeDown: () => _animateCartCheckout(),
       child: Scaffold(
         backgroundColor: AppTheme.mainCartBackgroundColor,
         appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(0),
           child: AppBar(
             backgroundColor: AppTheme.mainScaffoldBackgroundColor,
             elevation: 0,
-            brightness: Brightness.light,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
-          preferredSize: Size.fromHeight(0),
         ),
         body: SafeArea(
           child: Stack(
-            overflow: Overflow.visible,
+            clipBehavior: Clip.none,
             children: <Widget>[
               //cart
               //open = 0.12
               //closed = 0.92
               Positioned(
-                bottom: -response.screenHeight * currentCartScreenFactor,
+                bottom: -size.height * currentCartScreenFactor,
                 left: 0,
-                width: response.screenWidth,
+                width: size.width,
                 child: IgnorePointer(
-                  ignoring: disableCartTauch,
-                  child: Container(
-                    height: response.screenHeight,
-                    width: response.screenWidth,
+                  ignoring: disableCartTouch,
+                  child: SizedBox(
+                    height: size.height,
+                    width: size.width,
                     child: ListView(
-                      physics: !isCartExpanded ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
+                      physics: !isCartExpanded
+                          ? const NeverScrollableScrollPhysics()
+                          : const AlwaysScrollableScrollPhysics(),
                       children: <Widget>[
                         Container(
                           height: response.setHeight(80),
-                          width: response.screenWidth,
-                          padding: EdgeInsets.symmetric(horizontal: response.setWidth(25)),
+                          width: size.width,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: response.setWidth(25)),
                           child: CartPreview(
                             transformAnimationValue: transformAnimationValue,
                             animationValue: animationValue,
@@ -165,13 +182,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: response.setWidth(20)),
-                          child: Container(
-                            height: response.screenHeight * 0.85,
-                            width: response.screenWidth,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: response.setWidth(20)),
+                          child: SizedBox(
+                            height: size.height * 0.85,
+                            width: size.width,
                             // color: Colors.redAccent,
                             child: ProductsCheckout(
-                              cartCheckoutTransitionValue: cartCheckoutTransitionValue,
+                              cartCheckoutTransitionValue:
+                                  cartCheckoutTransitionValue,
                               cartProductsProvider: cartProductsProvider,
                               totalPriceProvider: totalPriceProvider,
                             ),
@@ -186,18 +205,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               //open = 0.01
               //closed = 0.8
               Positioned(
-                top: -response.screenHeight * currentMainScreenFactor,
+                top: -size.height * currentMainScreenFactor,
                 left: 0,
-                width: response.screenWidth,
+                width: size.width,
                 child: Hero(
                   tag: 'detailsScreen',
                   child: Container(
-                    height: response.screenHeight * 0.90,
-                    width: response.screenWidth,
+                    height: size.height * 0.90,
+                    width: size.width,
                     decoration: BoxDecoration(
                       color: AppTheme.mainScaffoldBackgroundColor,
                       // color: Colors.teal,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(40),
                         bottomRight: Radius.circular(40),
                       ),
@@ -206,15 +225,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
               ),
               Positioned(
-                top: -response.screenHeight * currentMainScreenFactor,
+                top: -size.height * currentMainScreenFactor,
                 left: 0,
-                width: response.screenWidth,
+                width: size.width,
                 child: IgnorePointer(
                   ignoring: isCartExpanded,
-                  child: Container(
-                    height: response.screenHeight * 0.90,
-                    width: response.screenWidth,
-                    child: ProductsPreview(),
+                  child: SizedBox(
+                    height: size.height * 0.90,
+                    width: size.width,
+                    child: const ProductsPreview(),
                   ),
                 ),
               ),
@@ -227,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   void dispose() {
-    _animationController?.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 }

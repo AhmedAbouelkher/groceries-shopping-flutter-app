@@ -1,4 +1,11 @@
 class Product {
+  final String name;
+  final String picPath;
+  final String weight;
+  final String description;
+  final String price;
+  int orderedQuantity;
+
   Product({
     this.name = 'null',
     this.picPath = 'null',
@@ -8,12 +15,7 @@ class Product {
     this.price = 'null',
     this.orderedQuantity = 1,
   });
-  final String name;
-  final String picPath;
-  final String weight;
-  final String description;
-  final String price;
-  int orderedQuantity;
+
   void makeOrder({int bulkOrder = 0}) {
     if (bulkOrder == 0) {
       orderedQuantity++;

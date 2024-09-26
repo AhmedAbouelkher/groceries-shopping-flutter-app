@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
-import 'package:groceries_shopping_app/screens/home.dart';
 import 'package:groceries_shopping_app/screens/product_details.dart';
 import 'package:groceries_shopping_app/widgets/details_page_transition.dart';
 import 'package:provider/provider.dart';
-import '../appTheme.dart';
+import '../app_theme.dart';
+import '../utils.dart';
 
 class ProductCard extends StatelessWidget {
-  ProductCard({@required this.index});
   final int index;
+  const ProductCard({
+    super.key,
+    required this.index,
+  });
+
   @override
   Widget build(BuildContext context) {
-    var producInfoProvider =
+    final productInfoProvider =
         Provider.of<ProductsOperationsController>(context).productsInStock;
     return GestureDetector(
       onTap: () {
@@ -19,13 +23,13 @@ class ProductCard extends StatelessWidget {
             DetailsPageRoute(route: ProductDetails(productIndex: index)));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         height: response.setHeight(240),
         width: response.setWidth(170),
         decoration: BoxDecoration(
             color: AppTheme.secondaryScaffoldColor,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                   color: Colors.black12, blurRadius: 10, spreadRadius: 0.8)
             ]),
@@ -42,11 +46,11 @@ class ProductCard extends StatelessWidget {
             children: <Widget>[
               //2.4
               Hero(
-                tag: '${producInfoProvider[index].picPath}-path',
+                tag: '${productInfoProvider[index].picPath}-path',
                 child: Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    producInfoProvider[index].picPath,
+                    productInfoProvider[index].picPath,
                     scale: 2.4,
                   ),
                 ),
@@ -55,7 +59,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    producInfoProvider[index].price,
+                    productInfoProvider[index].price,
                     style: TextStyle(
                       fontSize: response.setFontSize(24),
                       fontWeight: FontWeight.w900,
@@ -63,7 +67,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   SizedBox(height: response.setHeight(10)),
                   Text(
-                    producInfoProvider[index].name,
+                    productInfoProvider[index].name,
                     style: TextStyle(
                       fontSize: response.setFontSize(15),
                       fontWeight: FontWeight.w800,
@@ -71,7 +75,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   SizedBox(height: response.setHeight(4)),
                   Text(
-                    producInfoProvider[index].weight,
+                    productInfoProvider[index].weight,
                     style: TextStyle(
                       fontSize: response.setFontSize(14),
                       color: Colors.black54,

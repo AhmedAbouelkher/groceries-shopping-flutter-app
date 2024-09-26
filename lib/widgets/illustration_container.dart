@@ -5,10 +5,10 @@ class IllustrationContainer extends StatelessWidget {
   final String path;
   final bool reduceSizeByHalf;
   const IllustrationContainer({
-    Key key,
-    @required this.path,
+    super.key,
+    required this.path,
     this.reduceSizeByHalf = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,22 +1,35 @@
 PODS:
   - Flutter (1.0.0)
-  - shared_preferences (0.0.1):
+  - flutter_native_splash (0.0.1):
     - Flutter
+  - rive_common (0.0.1):
+    - Flutter
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - rive_common (from `.symlinks/plugins/rive_common/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  shared_preferences:
-    :path: ".symlinks/plugins/shared_preferences/ios"
+  flutter_native_splash:
+    :path: ".symlinks/plugins/flutter_native_splash/ios"
+  rive_common:
+    :path: ".symlinks/plugins/rive_common/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
+  rive_common: cbbac3192af00d7341f19dae2f26298e9e37d99e
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
 
-PODFILE CHECKSUM: 4d88e4659a0da115dbd2b993370f1f68773adc7b
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.15.2

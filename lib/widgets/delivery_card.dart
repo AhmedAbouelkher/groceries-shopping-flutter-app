@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:groceries_shopping_app/appTheme.dart';
-import 'package:groceries_shopping_app/screens/home.dart';
+import 'package:groceries_shopping_app/app_theme.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import '../utils.dart';
 
 class DeliveryCard extends StatelessWidget {
-  const DeliveryCard({
-    Key key,
-    @required this.totalPriceProvider,
-  }) : super(key: key);
-
   final double totalPriceProvider;
+
+  const DeliveryCard({
+    super.key,
+    required this.totalPriceProvider,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class DeliveryCard extends StatelessWidget {
           children: <Widget>[
             // SizedBox(height: response.setHeight(13)),
             Text(
-              "Delivary",
+              "Delivery",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class DeliveryCard extends StatelessWidget {
             ),
             SizedBox(height: response.setHeight(15)),
             Text(
-              "All orders of \$40 or more\nqualify for FREE deleivary.",
+              "All orders of \$40 or more\nqualify for FREE delivery.",
               style: TextStyle(
                 color: Colors.white70,
                 fontSize: response.setFontSize(11),
@@ -59,7 +59,7 @@ class DeliveryCard extends StatelessWidget {
             )
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           "\$$totalPriceProvider",
           style: TextStyle(

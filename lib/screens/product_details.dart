@@ -4,25 +4,26 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:groceries_shopping_app/local_database.dart';
 import 'package:groceries_shopping_app/product_provider.dart';
-import 'package:groceries_shopping_app/screens/home.dart';
 import 'package:provider/provider.dart';
-import '../appTheme.dart';
+import '../app_theme.dart';
+import '../utils.dart';
 
 class ProductDetails extends StatefulWidget {
-  ProductDetails({this.productIndex});
   final int productIndex;
+  const ProductDetails({super.key, required this.productIndex});
+
   @override
-  _ProductDetailsState createState() => _ProductDetailsState();
+  State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails>
     with SingleTickerProviderStateMixin, AfterLayoutMixin<ProductDetails> {
-  bool isFavourite = false;
-  PreferenceUtils _utils;
-  AnimationController animationController;
-  Animation animation;
-  Animation secondaryAnimation;
-  bool isToPreview;
+  bool isFavorite = false;
+  late final PreferenceUtils _utils;
+  late final AnimationController animationController;
+  late final Animation animation;
+  late final Animation secondaryAnimation;
+  bool isToPreview = false;
   double opacity = 1;
   int orderQuantity = 1;
   bool temp = false;
@@ -30,22 +31,29 @@ class _ProductDetailsState extends State<ProductDetails>
   @override
   void initState() {
     super.initState();
-    isToPreview = false;
     _utils = PreferenceUtils.getInstance();
     animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
     animation = Tween<double>(begin: 1, end: 0).animate(
-        CurvedAnimation(parent: animationController, curve: Curves.decelerate));
+      CurvedAnimation(parent: animationController, curve: Curves.decelerate),
+    );
     secondaryAnimation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(
-            parent: animationController,
-            curve: Interval(0.2, 1, curve: Curves.decelerate)));
-    animation.addListener(() => setState(() {}));
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(0.2, 1, curve: Curves.decelerate),
+      ),
+    );
+
+    animation.addListener(() {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
   void dispose() {
-    animationController?.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -59,42 +67,47 @@ class _ProductDetailsState extends State<ProductDetails>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppTheme.mainScaffoldBackgroundColor,
-        brightness: Brightness.light,
         leading: IconButton(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
             icon: Hero(
-              tag: 'backarrow',
-              child: Icon(Icons.arrow_back_ios,
-                  color: Colors.black, size: response.setHeight(24)),
+              tag: 'back-arrow',
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+                size: response.setHeight(24),
+              ),
             ),
             onPressed: () {
               setState(() => opacity = 0);
               Navigator.pop(context);
             }),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       floatingActionButton: InkWell(
         onTap: () {
           switch (temp) {
             case false:
-              SystemChrome.setEnabledSystemUIOverlays([]);
+              SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                  overlays: []);
               setState(() {
                 temp = true;
               });
               break;
             case true:
-              SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+              SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                  overlays: [SystemUiOverlay.bottom]);
               setState(() {
                 temp = false;
               });
               break;
           }
         },
-        child: Container(height: 100, width: 100),
+        child: const SizedBox(height: 100, width: 100),
       ),
       body: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         children: <Widget>[
           Hero(
             tag: 'detailsScreen',
@@ -202,15 +215,15 @@ class _ProductDetailsState extends State<ProductDetails>
                                         splashColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
-                                        icon: FaIcon(isFavourite
+                                        icon: FaIcon(isFavorite
                                             ? FontAwesomeIcons.solidHeart
                                             : FontAwesomeIcons.heart),
                                         onPressed: () async {
                                           setState(
-                                              () => isFavourite = !isFavourite);
+                                              () => isFavorite = !isFavorite);
                                           await _utils.saveValueWithKey<bool>(
                                               "${productProvider[widget.productIndex].name}-fav",
-                                              isFavourite);
+                                              isFavorite);
                                         }),
                                   ),
                                 ),
@@ -271,20 +284,23 @@ class _ProductDetailsState extends State<ProductDetails>
     var value = _utils.getValueWithKey(
         "${Provider.of<ProductsOperationsController>(context, listen: false).productsInStock[widget.productIndex].name}-fav");
     if (value != null) {
-      setState(() => isFavourite = value);
+      setState(() => isFavorite = value);
     }
   }
 }
 
 class ProductQuantity extends StatelessWidget {
-  ProductQuantity({
-    this.orderQuantity,
-    this.minusOnTap,
-    this.plusOnTap,
-  });
   final int orderQuantity;
   final VoidCallback minusOnTap;
   final VoidCallback plusOnTap;
+
+  const ProductQuantity({
+    super.key,
+    required this.orderQuantity,
+    required this.minusOnTap,
+    required this.plusOnTap,
+  });
+
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = TextStyle(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:groceries_shopping_app/models/product.dart';
-import 'package:groceries_shopping_app/screens/home.dart';
 import 'dart:collection';
+import '../utils.dart';
 
 class Checkout extends StatelessWidget {
   const Checkout({
-    Key key,
-    @required this.cartProductsProvider,
-    @required this.index,
-  }) : super(key: key);
+    super.key,
+    required this.cartProductsProvider,
+    required this.index,
+  });
 
   final UnmodifiableListView<Product> cartProductsProvider;
   final int index;
@@ -21,6 +21,7 @@ class Checkout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.only(bottom: response.setHeight(20)),
       child: Center(
@@ -37,15 +38,15 @@ class Checkout extends StatelessWidget {
             ),
             SizedBox(width: response.setWidth(15)),
             Text(
-              cartProductsProvider[index].orderedQuantity.toString() + '  x   ',
+              '${cartProductsProvider[index].orderedQuantity}  x   ',
               textAlign: TextAlign.start,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: response.setFontSize(12),
               ),
             ),
-            Container(
-              width: response.screenWidth * 0.5,
+            SizedBox(
+              width: size.width * 0.5,
               // color: Colors.red,
               child: Text(
                 cartProductsProvider[index].name.toString(),
@@ -56,9 +57,9 @@ class Checkout extends StatelessWidget {
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
-              "\$" + _cost(),
+              "\$${_cost()}",
               textAlign: TextAlign.start,
               style: TextStyle(
                 color: Colors.white70,
